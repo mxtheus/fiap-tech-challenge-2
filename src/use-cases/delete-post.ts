@@ -4,6 +4,6 @@ export class DeletePostUseCase {
     constructor(private readonly postRepository: IPostRepository) { }
 
     async handler(id: string): Promise<void> {
-        return this.postRepository.delete(id);
+        return await this.postRepository.delete(id);
     }
 }

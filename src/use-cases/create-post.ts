@@ -4,7 +4,7 @@ import { IPostRepository } from '@/repositories/post.repository.interface';
 export class CreatePostUseCase {
     constructor(private readonly postRepository: IPostRepository) { }
 
-    async handler(data: IPost): Promise<void> {
-        this.postRepository.create(data);
+    async handler(data: IPost): Promise<IPost> {
+        return await this.postRepository.create(data);
     }
 }

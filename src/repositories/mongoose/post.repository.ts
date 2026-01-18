@@ -1,7 +1,7 @@
 import { IPost } from '@/entities/models/post.interface';
 import { Model } from 'mongoose';
 import { IPostRepository } from '../post.repository.interface';
-import { PostModel } from './post.schema';
+import { PostModel } from './schemas/post.schema';
 
 export class MongoosePostRepository implements IPostRepository {
     constructor(
@@ -12,13 +12,13 @@ export class MongoosePostRepository implements IPostRepository {
         return this.postModel.findById(postId).lean().exec();
     }
 
-    async findAll(limit: number, page: number): Promise<IPost[]> {
+    async findAll(page: number, limit: number): Promise<IPost[]> {
         const offset = (page - 1) * limit;
 
         return this.postModel.find().skip(offset).limit(limit).lean().exec();
     }
 
-    search(keyword: string, limit: number, page: number): Promise<IPost[]> {
+    search(keyword: string, page: number, limit: number): Promise<IPost[]> {
         const offset = (page - 1) * limit;
 
         return this.postModel
@@ -34,9 +34,9 @@ export class MongoosePostRepository implements IPostRepository {
             .exec();
     }
 
-    async create(post: IPost): Promise<void> {
+    async create(post: IPost): Promise<IPost> {
         const created = new this.postModel(post);
-        await created.save();
+        return await created.save();
     }
 
     async update(postId: string, data: Partial<IPost>): Promise<void> {

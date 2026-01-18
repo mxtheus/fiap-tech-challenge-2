@@ -21,8 +21,11 @@ export const errorHandlerMap: ErrorHandlerMap = {
         return reply.status(404).send({ message: error.message });
     },
     InvalidCredentialsError: (error, __, reply) => {
-        return reply.status(404).send({ message: error.message });
+        return reply.status(401).send({ message: error.message });
     },
+    UserAlreadyExistsError: (error, __, reply) => {
+        return reply.status(400).send({ message: error.message });
+    }
 }
 
 export const globalErrorHandler = (

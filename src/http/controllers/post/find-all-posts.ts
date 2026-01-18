@@ -3,12 +3,12 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
 export async function findAllPosts(request: FastifyRequest, reply: FastifyReply) {
-    const registerQuerySchema = z.object({
+    const querySchema = z.object({
         page: z.coerce.number().min(1).default(1),
         limit: z.coerce.number().min(1).max(100).default(10)
     });
 
-    const { page, limit } = registerQuerySchema.parse(request.query);
+    const { page, limit } = querySchema.parse(request.query);
 
     const findAllPostsUseCase = makeFindAllPostsUseCase();
 

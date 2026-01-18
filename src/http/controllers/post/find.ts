@@ -3,11 +3,11 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
 export async function findPost(request: FastifyRequest, reply: FastifyReply) {
-    const registerParamsSchema = z.object({
+    const paramsSchema = z.object({
         id: z.coerce.string()
     });
 
-    const { id } = registerParamsSchema.parse(request.params);
+    const { id } = paramsSchema.parse(request.params);
 
     const findPostUseCase = makeFindPostUseCase();
 

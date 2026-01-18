@@ -5,12 +5,12 @@ export class UpdatePostUseCase {
     constructor(private readonly postRepository: IPostRepository) { }
 
     async handler({
-        id,
+        _id,
         title,
         content,
         authorId
     }: IPost): Promise<void> {
-        this.postRepository.update(id!, {
+        await this.postRepository.update(_id!, {
             title,
             content,
             authorId

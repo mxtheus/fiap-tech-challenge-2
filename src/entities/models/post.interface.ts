@@ -1,8 +1,8 @@
 export interface IPost {
-    id?: string;
+    _id?: string;
     title: string;
     content: string;
-    authorId: string;
+    authorId?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
