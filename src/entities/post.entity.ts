@@ -11,7 +11,7 @@ export class Post {
         return this.props.content;
     }
 
-    get authorId() {
-        return this.props.authorId;
+    get author() {
+        return this.props.author;
     }
 }

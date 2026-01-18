@@ -13,7 +13,7 @@ export async function search(request: FastifyRequest, reply: FastifyReply) {
 
     const searchPostsUseCase = makeSearchPostsUseCase();
 
-    const posts = await searchPostsUseCase.handler(keyword, page, limit);
+    const posts = await searchPostsUseCase.handler(request.user.role, keyword, page, limit);
 
     return reply.status(200).send(posts);
 }

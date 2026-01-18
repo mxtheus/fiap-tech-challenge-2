@@ -7,7 +7,12 @@ const PostSchema = new Schema<IPost>(
     {
         title: { type: String, required: true },
         content: { type: String, required: true },
-        authorId: { type: String, required: true }
+        isDraft: { type: Boolean, default: false },
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        }
     },
     {
         timestamps: true,

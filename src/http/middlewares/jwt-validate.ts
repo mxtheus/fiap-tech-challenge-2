@@ -1,17 +1,14 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify';
 
-export async function validateJwt(
-    request: FastifyRequest,
-    reply: FastifyReply,
-) {
+export async function validateJwt(request: FastifyRequest, reply: FastifyReply) {
     try {
-        const routeFreeList = ['POST-/user', 'POST-/user/signin']
-        const validateRoute = `${request.method}-${request.url}`
+        const routeFreeList = ['POST-/user', 'POST-/user/signin'];
+        const validateRoute = `${request.method}-${request.url}`;
 
-        if (routeFreeList.includes(validateRoute)) return
+        if (routeFreeList.includes(validateRoute)) return;
 
-        await request.jwtVerify()
+        await request.jwtVerify();
     } catch (error) {
-        reply.status(401).send({ message: 'Unauthorized' })
+        reply.status(401).send({ message: 'Unauthorized' });
     }
 }

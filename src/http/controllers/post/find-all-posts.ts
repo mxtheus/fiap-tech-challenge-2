@@ -12,7 +12,7 @@ export async function findAllPosts(request: FastifyRequest, reply: FastifyReply)
 
     const findAllPostsUseCase = makeFindAllPostsUseCase();
 
-    const posts = await findAllPostsUseCase.handler(page, limit);
+    const posts = await findAllPostsUseCase.handler(request.user.role, page, limit);
 
     return reply.status(200).send(posts);
 }

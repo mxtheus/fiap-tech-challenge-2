@@ -1,7 +1,7 @@
 import { IUser } from '@/entities/models/user.interface';
 import { IUserRepository } from '@/repositories/user.repository.interface';
 import { hash } from 'bcryptjs';
-import { UserAlreadyExistsError } from './errors/invalid-credentials-error copy';
+import { UserAlreadyExistsError } from './errors/user-already-exists-error';
 
 export class CreateUserUseCase {
     constructor(private readonly userRepository: IUserRepository) { }

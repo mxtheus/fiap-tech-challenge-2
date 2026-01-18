@@ -1,8 +1,13 @@
+import { UserWithoutPrivileges } from '@/use-cases/errors/user-without-privileges-error';
 import { makeDeletePostUseCase } from '@/use-cases/factory/make-delete-post-use-case';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
 export async function deletePost(request: FastifyRequest, reply: FastifyReply) {
+    if (request.user.role !== 'teacher') {
+        throw new UserWithoutPrivileges();
+    }
+
     const bodySchema = z.object({
         id: z.coerce.string()
     });

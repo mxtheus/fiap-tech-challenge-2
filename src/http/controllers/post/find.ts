@@ -11,7 +11,7 @@ export async function findPost(request: FastifyRequest, reply: FastifyReply) {
 
     const findPostUseCase = makeFindPostUseCase();
 
-    const post = await findPostUseCase.handler(id);
+    const post = await findPostUseCase.handler(request.user.role, id);
 
     return reply.status(200).send(post);
 }

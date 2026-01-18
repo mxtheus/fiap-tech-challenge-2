@@ -9,8 +9,3 @@ export interface IUser {
     createdAt?: Date;
     updatedAt?: Date;
 }
-
-export interface IAuthor {
-    _id?: string;
-    name: string;
-}

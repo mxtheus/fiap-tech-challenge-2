@@ -25,6 +25,9 @@ export const errorHandlerMap: ErrorHandlerMap = {
     },
     UserAlreadyExistsError: (error, __, reply) => {
         return reply.status(400).send({ message: error.message });
+    },
+    UserWithoutPrivileges: (error, __, reply) => {
+        return reply.status(403).send({ message: error.message });
     }
 }
 
