@@ -9,7 +9,7 @@ export class MongoosePostRepository implements IPostRepository {
     ) { }
 
     async findById(postId: string, filters?: IPostsFilters): Promise<IPost | null> {
-        return this.postModel
+        return await this.postModel
             .findOne({
                 _id: postId,
                 ...filters
@@ -25,7 +25,7 @@ export class MongoosePostRepository implements IPostRepository {
     async findAll(page: number, limit: number, filters?: IPostsFilters): Promise<IPost[]> {
         const offset = (page - 1) * limit;
 
-        return this.postModel
+        return await this.postModel
             .find(filters)
             .populate({
                 path: 'author',
@@ -37,10 +37,10 @@ export class MongoosePostRepository implements IPostRepository {
             .exec();
     }
 
-    search(keyword: string, page: number, limit: number, filters?: IPostsFilters): Promise<IPost[]> {
+    async search(keyword: string, page: number, limit: number, filters?: IPostsFilters): Promise<IPost[]> {
         const offset = (page - 1) * limit;
 
-        return this.postModel
+        return await this.postModel
             .find({
                 ...filters,
                 $or: [
