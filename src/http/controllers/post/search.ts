@@ -2,14 +2,14 @@ import { makeSearchPostsUseCase } from '@/use-cases/factory/make-search-posts-us
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-export async function search(request: FastifyRequest, reply: FastifyReply) {
-    const registerQuerySchema = z.object({
-        keyword: z.string(),
-        page: z.coerce.number().min(1).default(1),
-        limit: z.coerce.number().min(1).max(100).default(10)
-    });
+export const searchPostQuerySchema = z.object({
+    keyword: z.string(),
+    page: z.coerce.number().min(1).default(1),
+    limit: z.coerce.number().min(1).max(100).default(10)
+});
 
-    const { page, limit, keyword } = registerQuerySchema.parse(request.query);
+export async function search(request: FastifyRequest, reply: FastifyReply) {
+    const { page, limit, keyword } = searchPostQuerySchema.parse(request.query);
 
     const searchPostsUseCase = makeSearchPostsUseCase();
 

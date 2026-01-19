@@ -4,13 +4,13 @@ import { compare } from 'bcryptjs';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-export async function signin(request: FastifyRequest, reply: FastifyReply) {
-  const registerBodySchema = z.object({
-    email: z.string().toLowerCase(),
-    password: z.string()
-  });
+export const userSigninBodySchema = z.object({
+  email: z.string().toLowerCase(),
+  password: z.string()
+});
 
-  const { email, password } = registerBodySchema.parse(request.body);
+export async function signin(request: FastifyRequest, reply: FastifyReply) {
+  const { email, password } = userSigninBodySchema.parse(request.body);
 
   const signinUseCase = makeSigninUseCase();
 

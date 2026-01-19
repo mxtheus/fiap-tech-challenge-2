@@ -3,16 +3,16 @@ import { makeDeletePostUseCase } from '@/use-cases/factory/make-delete-post-use-
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
+export const deletePostParamsSchema = z.object({
+    id: z.coerce.string()
+});
+
 export async function deletePost(request: FastifyRequest, reply: FastifyReply) {
     if (request.user.role !== 'teacher') {
         throw new UserWithoutPrivileges();
     }
 
-    const bodySchema = z.object({
-        id: z.coerce.string()
-    });
-
-    const { id } = bodySchema.parse(request.params);
+    const { id } = deletePostParamsSchema.parse(request.params);
 
     const deletePostUseCase = makeDeletePostUseCase();
 

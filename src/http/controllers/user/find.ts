@@ -2,12 +2,12 @@ import { makeFindUserUseCase } from '@/use-cases/factory/make-find-user-use-case
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-export async function findUser(request: FastifyRequest, reply: FastifyReply) {
-    const paramsSchema = z.object({
-        id: z.coerce.string()
-    });
+export const findUserParamsSchema = z.object({
+    id: z.coerce.string()
+});
 
-    const { id } = paramsSchema.parse(request.params);
+export async function findUser(request: FastifyRequest, reply: FastifyReply) {
+    const { id } = findUserParamsSchema.parse(request.params);
 
     const findUserUseCase = makeFindUserUseCase();
 
