@@ -13,7 +13,11 @@ export class MongooseUserRepository implements IUserRepository {
     }
 
     async findById(id: string): Promise<IUser | null> {
-        return this.userModel.findById(id).lean().exec();
+        return this.userModel
+            .findById(id)
+            .select('-password')
+            .lean()
+            .exec();
     }
 
     async findByEmail(email: string): Promise<IUser | null> {
