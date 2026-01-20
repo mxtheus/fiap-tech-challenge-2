@@ -157,7 +157,7 @@ describe('Posts HTTP', () => {
             method: 'PUT',
             url: `/posts/${postId}`,
             headers: { authorization: `Bearer ${studentToken}` },
-            payload: { title: 'Hack' }
+            payload: { title: 'Hack', content: 'Hacked', isDraft: false }
         });
         expect(studentUpdate.statusCode).toBe(403);
 

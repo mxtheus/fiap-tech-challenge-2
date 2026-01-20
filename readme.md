@@ -107,7 +107,7 @@ Antes de executar o projeto, é necessário criar um arquivo `.env` com base no 
 
 **Execução com Docker Compose**
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
 **Execução Local com Node.js**
