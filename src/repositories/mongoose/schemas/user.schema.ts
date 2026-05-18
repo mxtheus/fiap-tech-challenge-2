@@ -12,6 +12,10 @@ const UserSchema = new Schema<IUser>(
             type: String,
             enum: ['teacher', 'student'],
             required: true
+        },
+        isActive: {
+            type: Boolean,
+            default: true
         }
     },
     {

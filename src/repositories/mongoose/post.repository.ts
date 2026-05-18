@@ -1,3 +1,4 @@
+import { IPaginatedResponse } from '@/entities/models/pagination.interface';
 import { IPost, IPostsFilters } from '@/entities/models/post.interface';
 import { Model } from 'mongoose';
 import { IPostRepository } from '../post.repository.interface';
@@ -22,40 +23,74 @@ export class MongoosePostRepository implements IPostRepository {
             .exec();
     }
 
-    async findAll(page: number, limit: number, filters?: IPostsFilters): Promise<IPost[]> {
+    async findAll(page: number, limit: number, filters?: IPostsFilters): Promise<IPaginatedResponse<IPost>> {
         const offset = (page - 1) * limit;
 
-        return await this.postModel
-            .find(filters)
-            .populate({
-                path: 'author',
-                select: 'name'
-            })
-            .skip(offset)
-            .limit(limit)
-            .lean()
-            .exec();
+        const [posts, total] = await Promise.all([
+            this.postModel
+                .find(filters)
+                .populate({
+                    path: 'author',
+                    select: 'name'
+                })
+                .skip(offset)
+                .limit(limit)
+                .lean()
+                .exec(),
+            this.postModel.countDocuments(filters)
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
+
+        return {
+            data: posts,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages,
+                hasNextPage: page < totalPages,
+                hasPreviousPage: page > 1
+            }
+        };
     }
 
-    async search(keyword: string, page: number, limit: number, filters?: IPostsFilters): Promise<IPost[]> {
+    async search(keyword: string, page: number, limit: number, filters?: IPostsFilters): Promise<IPaginatedResponse<IPost>> {
         const offset = (page - 1) * limit;
 
-        return await this.postModel
-            .find({
-                ...filters,
-                $or: [
-                    { title: { $regex: keyword, $options: 'i' } },
-                    { content: { $regex: keyword, $options: 'i' } }
-                ]
-            })
-            .populate({
-                path: 'author',
-                select: 'name'
-            })
-            .skip(offset)
-            .limit(limit)
-            .lean()
-            .exec();
+        const [posts, total] = await Promise.all([
+            this.postModel
+                .find({
+                    ...filters,
+                    $or: [
+                        { title: { $regex: keyword, $options: 'i' } },
+                        { content: { $regex: keyword, $options: 'i' } }
+                    ]
+                })
+                .populate({
+                    path: 'author',
+                    select: 'name'
+                })
+                .skip(offset)
+                .limit(limit)
+                .lean()
+                .exec(),
+            this.postModel.countDocuments(filters)
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
+
+        return {
+            data: posts,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages,
+                hasNextPage: page < totalPages,
+                hasPreviousPage: page > 1
+            }
+        };
     }
 
     async create(post: IPost): Promise<IPost> {

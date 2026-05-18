@@ -28,6 +28,12 @@ export const errorHandlerMap: ErrorHandlerMap = {
     },
     UserWithoutPrivileges: (error, __, reply) => {
         return reply.status(403).send({ message: error.message });
+    },
+    UserDisabledError: (error, __, reply) => {
+        return reply.status(403).send({ message: error.message });
+    },
+    UserSelfDemoteError: (error, __, reply) => {
+        return reply.status(400).send({ message: error.message });
     }
 }
 

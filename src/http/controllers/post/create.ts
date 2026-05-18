@@ -6,7 +6,15 @@ import { z } from 'zod';
 export const createPostBodySchema = z.object({
     title: z.string(),
     content: z.string(),
-    isDraft: z.coerce.boolean()
+    isDraft: z.preprocess(
+        (value) => {
+            if (value === 'true') return true;
+            if (value === 'false') return false;
+
+            return value;
+        },
+        z.boolean()
+    )
 });
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {

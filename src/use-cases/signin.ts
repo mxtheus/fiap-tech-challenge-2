@@ -1,6 +1,7 @@
 import { IUser } from '@/entities/models/user.interface';
 import { IUserRepository } from '@/repositories/user.repository.interface';
 import { InvalidCredentialsError } from './errors/invalid-credentials-error';
+import { UserDisabledError } from './errors/user-disabled-error';
 
 export class SigninUseCase {
     constructor(private readonly userRepository: IUserRepository) { }
@@ -10,6 +11,10 @@ export class SigninUseCase {
 
         if (!user) {
             throw new InvalidCredentialsError();
+        }
+
+        if (!user.isActive) {
+            throw new UserDisabledError();
         }
 
         return user;
